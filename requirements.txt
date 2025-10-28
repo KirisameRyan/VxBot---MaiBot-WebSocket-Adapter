@@ -1,0 +1,5 @@
+maim_message
+websockets
+asyncio
+python-dotenv
+wxauto
