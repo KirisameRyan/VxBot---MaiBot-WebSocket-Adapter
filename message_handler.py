@@ -1,11 +1,9 @@
 import asyncio
-import json
 import logging
 import hashlib
 import time
 import re
-import base64
-from typing import Dict, Optional, Any
+from typing import Dict
 from maim_message import (
     BaseMessageInfo, UserInfo, GroupInfo, FormatInfo, MessageBase, Seg,
     Router, RouteConfig, TargetConfig
@@ -73,7 +71,6 @@ class MaiBotMessageHandler:
     def _build_message_info(self, chat_name: str, message_data: Dict) -> BaseMessageInfo:
         """构建消息元数据"""
         sender = message_data['sender']
-        content = message_data['content']
         
         # 生成更可靠的消息ID
         self.message_counter += 1
@@ -163,7 +160,7 @@ class MaiBotMessageHandler:
         try:
             # 检查消息类型，可能是字典或 MessageBase 对象
             if isinstance(message, dict):
-                logger.info(f"收到 MaiBot Core 回复 (字典格式)")
+                logger.info("收到 MaiBot Core 回复 (字典格式)")
                 # 从字典中提取消息内容
                 content = self._extract_content_from_dict(message)
                 target_chat = self._get_target_chat_from_dict(message)
@@ -185,7 +182,7 @@ class MaiBotMessageHandler:
                     return
                 
             elif hasattr(message, 'message_segment'):
-                logger.info(f"收到 MaiBot Core 回复 (MessageBase格式)")
+                logger.info("收到 MaiBot Core 回复 (MessageBase格式)")
                 # 提取消息内容
                 content = self._extract_content(message.message_segment)
                 target_chat = self._get_target_chat(message.message_info)

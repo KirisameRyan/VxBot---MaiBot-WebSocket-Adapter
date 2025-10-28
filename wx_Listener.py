@@ -4,14 +4,10 @@ import time
 import re
 import win32clipboard
 import win32con
-import win32gui
 import win32api
-import os
-import base64
-import tempfile
 from datetime import datetime
 from wxauto import WeChat
-from config import WX_TARGET_CHATS, WX_LISTEN_ALL_IF_EMPTY, WX_EXCLUDED_CHATS
+from config import WX_LISTEN_ALL_IF_EMPTY, WX_EXCLUDED_CHATS
 
 logger = logging.getLogger(__name__)
 
@@ -170,7 +166,7 @@ class WeChatListener:
                 success = self._send_via_wxauto_api(chat_name, message)
                 
                 if success:
-                    logger.info(f"成功通过WeChat API发送消息")
+                    logger.info("成功通过WeChat API发送消息")
                     return True
                     
             except Exception as e:
@@ -178,7 +174,7 @@ class WeChatListener:
                 if attempt < max_retries - 1:
                     time.sleep(2)
         
-        logger.error(f"最终发送失败")
+        logger.error("最终发送失败")
         return False
 
     def _send_via_wxauto_api(self, chat_name: str, message: str) -> bool:
@@ -222,7 +218,7 @@ class WeChatListener:
                 return True
             else:
                 # 如果ChatWith返回False，尝试使用搜索方法
-                logger.info(f"ChatWith返回False，尝试搜索方法")
+                logger.info("ChatWith返回False，尝试搜索方法")
                 return self._switch_via_search(chat_name)
                 
         except Exception as e:
